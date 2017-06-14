@@ -7,7 +7,7 @@
  * rickydia@umich.edu
  *
  * Started on the 12th of June, 2017 at 12:50 PM
- * Last edited on the 12th of June, 2017 at 1:22 PM
+ * Last edited on the 13th of June, 2017 at 1:22 PM
  *
  */
 
@@ -18,7 +18,7 @@
 #include <cassert>
 
 
-class calculus{
+class Calculus{
 private:
 	
 };
@@ -26,13 +26,21 @@ private:
 
 
 
-class derivative : calculus{
+class Derivative : Calculus{
 public:
-	
+	Derivative(int num_of_der_in, std::string der_in)
+		:num_of_der(num_of_der_in), der(der_in) {}
+		
+	std::string take_derivative(){
+		
+		std::string poop;
+		return poop;
+	}
 	
 	
 private:
-	std::string object;
+	int num_of_der;
+	std::string der;
 
 };
 
