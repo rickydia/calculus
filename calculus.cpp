@@ -37,6 +37,7 @@ int main(int argc, char* argv[]){
 	if(std::string(argv[1]) == "i"){
 		if(argc != 3 && argc != 4){
 			std::cout << "USAGE FOR INTERGALS: ./calculus i [NUMBER OF TIMES THE INTEGRAL WILL BE TAKEN] [OBJECT OF INTEGRATION]" << std::endl;
+			std::cout << "PROGRAM TERMINATED." << std::endl;
 		}
 		
 	}
