@@ -32,8 +32,9 @@ public:
 		:num_of_der(num_of_der_in), der(der_in) {}
 		
 	std::string take_derivative(){
+		//int obj_len = der;
 		
-		std::string poop;
+		std::string poop = "POOP";
 		return poop;
 	}
 	
