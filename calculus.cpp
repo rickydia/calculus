@@ -15,8 +15,8 @@
 #include <cassert>
 
 
-// Function for the output of a dericative
-void output_for_der(int num_of_der, std::string der, std::string output);
+// Functions for the output of a derivative and integral
+void output_for_calc(int num, std::string thing_being_calced, std::string output, std::string type_of_calc);
 
 
 int main(){
@@ -51,7 +51,7 @@ int main(){
 			// Takes a derivative and stores it to "object"
 			output = derivative.take_derivative();
 			// Outputs the derivative to the user
-			output_for_der(num_of_der, der, output);
+			output_for_calc(num_of_der, der, output, "derivative");
 		}
 
 		// If user wants to take the integral
@@ -64,6 +64,13 @@ int main(){
 			std::cout << "Please enter the amount of times the integral should be taken: ";
 			std::cin >> num_of_inte;
 
+			// Creates a integral object
+			Integral integral(num_of_inte, inte);
+			std::string output;
+			// Takes the integral and stores it to "object"
+			output = integral.take_integral();
+			// Outputs the integral to the user
+			output_for_calc(num_of_inte, inte, output, "integral");
 		}
 			
 	}
@@ -74,51 +81,46 @@ int main(){
 
 
 // Function for the output of a dericative, mostly designed to get the correct suffix
-void output_for_der(int num_of_der, std::string der, std::string output){
+void output_for_calc(int num, std::string thing_being_calced, std::string output, std::string type_of_calc){
 	std::cout << std::endl;
 
 	// After 20, the last digit determins the suffix
 	// NOTE: DOES NOT ACCOUNT FOR CORRECT SUFFIXES AFTER 110
-	if(num_of_der > 20){
-		if(num_of_der % 10 == 1){
-			std::cout << "The " << num_of_der << "st derivative of " << der << " is " << output << "." << std::endl;
+	if(num > 20){
+		if(num % 10 == 1){
+			std::cout << "The " << num << "st " << type_of_calc << " of " << thing_being_calced << " is " << output << "." << std::endl;
 		}
 
-		else if(num_of_der % 10 == 2){
-			std::cout << "The " << num_of_der << "nd derivative of " << der << " is " << output << "." << std::endl;
+		else if(num % 10 == 2){
+			std::cout << "The " << num << "nd " << type_of_calc << " of " << thing_being_calced << " is " << output << "." << std::endl;
 		}
 
-		else if(num_of_der % 10 == 3){
-			std::cout << "The " << num_of_der << "rd derivative of " << der << " is " << output << "." << std::endl;
+		else if(num % 10 == 3){
+			std::cout << "The " << num << "rd " << type_of_calc << " of " << thing_being_calced << " is " << output << "." << std::endl;
 		}
 
 		else{
-			std::cout << "The " << num_of_der << "th derivative of " << der << " is " << output << "." << std::endl;
+			std::cout << "The " << num << "th " << type_of_calc << " of " << thing_being_calced << " is " << output << "." << std::endl;
 		}
 	}
 
-	else if(num_of_der == 1){
-		std::cout << "The 1st derivative of " << der << " is " << output << "." << std::endl;
+	else if(num == 1){
+		std::cout << "The 1st " << type_of_calc << " of " << thing_being_calced << " is " << output << "." << std::endl;
 	}
 
-	else if(num_of_der == 2){
-		std::cout << "The 2nd derivative of " << der << " is " << output << "." << std::endl;
+	else if(num == 2){
+		std::cout << "The 2nd " << type_of_calc << " of " << thing_being_calced << " is " << output << "." << std::endl;
 	}
 
-	else if(num_of_der == 3){
-		std::cout << "The 3rd derivative of " << der << " is " << output << "." << std::endl;
+	else if(num == 3){
+		std::cout << "The 3rd " << type_of_calc << " of " << thing_being_calced << " is " << output << "." << std::endl;
 	}
 
 	else{
-		std::cout << "The " << num_of_der << "th derivative of " << der << " is " << output << "." << std::endl;
+		std::cout << "The " << num << "th " << type_of_calc << " of " << thing_being_calced << " is " << output << "." << std::endl;
 	}
 			
 	std::cout << std::endl;
 	std::cout << std::endl;
 }
 			
-
-
-
-
-

@@ -18,15 +18,8 @@
 #include <cassert>
 
 
-class Calculus{
-private:
-	
-};
 
-
-
-
-class Derivative : Calculus{
+class Derivative{
 public:
 	Derivative(int num_of_der_in, std::string der_in)
 		:num_of_der(num_of_der_in), der(der_in) {}
@@ -45,5 +38,26 @@ private:
 
 };
 
+
+
+
+class Integral{
+public:
+	Integral(int num_of_inte_in, std::string inte_in)
+		:num_of_inte(num_of_inte_in), inte(inte_in) {}
+
+	std::string take_integral(){
+		
+		
+		std::string poop = "POOP";
+		return poop;
+	}
+
+
+private:
+	int num_of_inte;
+	std::string inte;
+
+};
 
 #endif
