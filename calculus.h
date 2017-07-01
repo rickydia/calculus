@@ -13,6 +13,8 @@
 
 
 #include <iostream>
+#include <stdlib.h>
+#include <ctype.h>
 #include <string>
 #include <vector>
 #include <cassert>
@@ -35,7 +37,7 @@ public:
 		for(unsigned int i = 0; i < der.length(); ++i){
 			std::string comp = std::string(&der[i]);
 			// If a + or - is used outside of exponents
-			if((comp == "+" || comp == "-") && (std::string(&der.at(i-1)) != "^" || (std::string(&der.at(i-1)) != "(" && std::string(&der.at(i-2)) != "^"))){
+			if((comp == "+" || comp == "-") && (std::string(&der[i-1]) != "^" || (std::string(&der[i-1]) != "(" && std::string(&der[i-2]) != "^"))){
 				++add_sub_counter; 
 				loc_of_plus_or_minus.push_back(i);
 			}
@@ -45,46 +47,76 @@ public:
 		// Ensures that the deivative is done in case that a + or - is never inputted
 		if(loc_of_plus_or_minus.size() == 0){ loc_of_plus_or_minus.push_back(0); }
 
+		// For the inner for loop in order to give the last +/- a chance to run
+		loc_of_plus_or_minus.push_back(loc_of_plus_or_minus.size());
+
 		// Takes the derivative, seperating terms by the + and -
-		for(unsigned int i = 0; i < loc_of_plus_or_minus.size(); ++i){
+		for(unsigned int i = 0; i < loc_of_plus_or_minus.size() - 1; ++i){
 			std::string term_der;
-			bool is_neg_coef = false;
-			bool is_neg_exp = false;
+			std::string variable;
 			bool is_variable = false;
 			double coefficient = 0;
 			double exponent = 0;
 			int j = loc_of_plus_or_minus[i];
 
-			for(; (loc_of_plus_or_minus.at(i+1) - loc_of_plus_or_minus[i]) > 0; ++j){ 
+			// Travels through the term itself through every item
+			for(int end = loc_of_plus_or_minus[i+1]; (end - j) > 0; ++j){ 
 				std::string comp = std::string(&der[j]);
 	
-				if((comp == "+" || comp == "-")){
-					if(std::string(&der.at(j-1)) != "^" || (std::string(&der.at(j-1)) != "(" && std::string(&der.at(j-2)) != "^")){
-						if(comp == "-"){ is_neg_coef = true; }
-					}
-					else if(comp == "-"){
-						is_neg_exp = true; 
-					}
-				}
-			
-				else if(isdigit(comp[0]) || comp == "."){
-					// Exponent coef with no parenthesis
-					if(std::string(&der.at(j-1)) == "^"){
+				if(comp == "^"){
+					++j;
+					if(std::string(&der[j]) == "("){
+						int length_of_paren = 0;
+						int plus_minus_counter_exp = 0;
+						while(std::string(&der[j]) != ")"){
+							++length_of_paren;
+							++j;
+						}
 
-					}
-					// Exponent coef with parenthesis
-					else if(std::string(&der.at(j-2)) == "^"){
-					
-					}
-
-					else{
+						char* ptr = &der[j - length_of_paren];
 						
+						exponent += strtod(ptr, &ptr);
+						for(int index = 0; index < plus_minus_counter_exp; ++index){
+							char* temp_ptr1 = ptr;
+							char* temp_ptr2 = ptr;
+							++temp_ptr1;
+							++++temp_ptr2;
+
+							if(*ptr == ' ' && temp_ptr1[0] == '-' && temp_ptr2[0] == ' '){
+								++++ptr;
+								exponent -= strtod(ptr, &ptr);
+							}
+							else{
+								exponent += strtod(ptr, &ptr);
+							}
+						}
 					}
+					else{
+						exponent = strtod(&der[j], NULL);
+					}	
 				}
 				
-			}	
+				else if(isdigit(comp[0]) || comp == "." || comp == "-" || comp == "+"){
+					char* ptr;
+					coefficient = strtod(comp.c_str(), &ptr);
+					int length_of_dub = ptr - &der[j] - 1;
+					j += length_of_dub;
+				}
+				
+				else if(isalpha(der[j])){
+					variable = comp;
+					is_variable = true;
+				}
 
-			new_der += term_der;
+			}	
+			if(is_variable){
+				double new_coef = coefficient * exponent;
+				double new_exp = exponent - 1;
+				std::string new_coef_str = std::to_string(new_coef);
+				std::string new_exp_str = std::to_string(new_exp);
+				term_der = new_coef_str + variable + "^(" + new_exp_str + ") + "; 
+				new_der += term_der;
+			}
 		}
 		return new_der;
 	}
