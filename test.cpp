@@ -117,6 +117,6 @@ int main(){
 	 * 
 	 * exponent / and *
 	 * 
-	 * 
+	 * if its x^1
 	 */
 }
