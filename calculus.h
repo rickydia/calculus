@@ -86,10 +86,13 @@ public:
 							comp_third = der[j];
 						}
 
-						char* ptr = &der[j - length_of_paren];
+						char* ptr = &der[j - length_of_paren + 1];
+						std::cout << "ptr = " << ptr << std::endl;
+						double temp = strtod(ptr, &ptr);
+						std::cout << "strtod = " << temp << std::endl;
 						
 						// FUTURE RICKY, THE PROBLEM IS HERE. MULTIPLIES BY 0
-						exponent *= strtod(ptr, &ptr);
+						exponent *= temp;
 						for(int index = 0; index < plus_minus_counter_exp; ++index){
 							char* temp_ptr1 = ptr;
 							char* temp_ptr2 = ptr;
@@ -129,10 +132,10 @@ public:
 				double new_exp = exponent - 1;
 				std::string new_coef_str = std::to_string(new_coef);
 				std::string new_exp_str = std::to_string(new_exp);
-			std::cout << "coefficient: " << coefficient << std::endl;
-			std::cout << "exponent: " << exponent << std::endl;
-			std::cout << "new coefficient: " << new_coef << std::endl;
-			std::cout << "new exponent: " << new_exp << std::endl;
+				std::cout << "coefficient: " << coefficient << std::endl;
+				std::cout << "exponent: " << exponent << std::endl;
+				std::cout << "new coefficient: " << new_coef << std::endl;
+				std::cout << "new exponent: " << new_exp << std::endl;
 				term_der = new_coef_str + variable + "^(" + new_exp_str + ") "; 
 				new_der += term_der;
 			}
@@ -195,8 +198,7 @@ private:
 //			 derivative or integral, and whether it was a derivative or integral being done
 // EFFECTS:  Function for the output of a dericative, mostly designed in order to get the correct suffix
 void output_for_calc(int num, std::string thing_being_calced, std::string output, std::string type_of_calc){
-	std::cout << "\n";
-	std::cout << std::setprecision(3);
+	std::cout << '\n';
 
 	// After 20, the last digit determins the suffix
 	// NOTE: DOES NOT ACCOUNT FOR CORRECT SUFFIXES AFTER 110
