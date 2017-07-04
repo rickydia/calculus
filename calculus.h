@@ -265,39 +265,15 @@ private:
 
 
 
-class Integral{
-public:
-	Integral(int num_of_inte_in, std::string inte_in)
-		:num_of_inte(num_of_inte_in), inte(inte_in) {}
-
-	std::string take_integral(){
-		
-		
-		std::string poop = "FEATURE NOT YET ADDED";
-		return poop;
-	}
-
-
-private:
-	int num_of_inte;
-	std::string inte;
-
-};
-
-
-
-
-
-
-
-// REQUIRES: The number of times the derivative or intergral was done, the object of derivation or integration, the correct
-//			 derivative or integral, and whether it was a derivative or integral being done
-// EFFECTS:  Function for the output of a dericative, mostly designed in order to get the correct suffix
+// REQUIRES: The number of times the derivative was done, the object of derivation, the correct
+//			 derivative, and whether it was a derivative being done(able to be adapted if I later
+//			 choose to add integrals to my program
+// EFFECTS:  Function for the output, mostly designed in order to get the correct suffix
+// NOTE:     DOES NOT ACCOUNT FOR CORRECT SUFFIXES AFTER 110 USES
 void output_for_calc(int num, std::string thing_being_calced, std::string output, std::string type_of_calc){
 	std::cout << '\n';
 
 	// After 20, the last digit determins the suffix
-	// NOTE: DOES NOT ACCOUNT FOR CORRECT SUFFIXES AFTER 110
 	if(num > 20){
 		if(num % 10 == 1){
 			std::cout << "The " << num << "st " << type_of_calc << " of " << thing_being_calced << " is " << output << ".\n";
@@ -335,9 +311,6 @@ void output_for_calc(int num, std::string thing_being_calced, std::string output
 	std::cout << "\n\n";
 }
 			
-
-
-
 
 
 
