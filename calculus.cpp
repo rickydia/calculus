@@ -37,8 +37,10 @@ int main(){
 		else if(input == "d" || input == "derivative"){
 			std::string der;
 			std::cout << "Please enter the object of derivation: ";
+			// Gets the user's input
 			std::cin.ignore(1000, '\n');
 			std::getline(std::cin, der);
+			// Saves the user input into orig_der and edits der in order to remove all white space
 			std::string orig_der = der;
 			for(unsigned int i = 0; i < der.length(); ++i){ 
 				if(der[i] == ' '){ der.erase(i, 1); }
@@ -61,7 +63,7 @@ int main(){
 		else if(input == "i" || input == "integral"){
 			std::string inte;
 			std::cout << "Please enter the object of integration: ";
-			//std::cin.ignore();
+			std::cin.ignore(1000, '\n');
 			getline(std::cin, inte);
 			std::string orig_inte = inte;
 			for(unsigned int i = 0; i < inte.length(); ++i){ 

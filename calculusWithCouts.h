@@ -33,7 +33,7 @@ public:
 	std::string take_derivative_once(){
 		std::string new_der;
 
-		// Counts the amount of plus/minus signs that aren't used in exponents
+		// Counts the amount of +/- that aren't used in exponents
 		int add_sub_counter = 0;
 		std::vector<int> loc_of_plus_or_minus;
 		for(unsigned int i = 0; i < der.length(); ++i){
@@ -61,8 +61,10 @@ public:
 			}
 			catch(const std::out_of_range& oor){}
 
-			// If a plus/minus sign is used outside of exponents
+			// If a + or - is used outside of exponents
+			//std::cout << "comp_first: " << comp_first << std::endl;
 			if((comp_first == "+" || comp_first == "-") && !(comp_minus_one == "^" || (comp_minus_one == "(" && (comp_minus_two == "^" || (comp_minus_two == " " && comp_minus_three == "^"))))){
+				//std::cout << "ADDS TO COUNTER" << std::endl;
 				++add_sub_counter; 
 				loc_of_plus_or_minus.push_back(i);
 			}
@@ -83,8 +85,9 @@ public:
 		// For the inner for loop in order to give the last +/- a chance to run
 		loc_of_plus_or_minus.push_back(der.size());
 
+		//std::cout << "AMOUNT OF TERMS: " << loc_of_plus_or_minus.size() - 1 << std::endl;
 
-		// Takes the derivative, seperating terms by the plus/minus signs
+		// Takes the derivative, seperating terms by the + and -
 		for(unsigned int i = 0; i < loc_of_plus_or_minus.size() - 1; ++i){
 			std::string term_der;
 			std::string variable;
@@ -100,10 +103,13 @@ public:
 				std::string comp = std::string(&der[j]);
 				// comp_first is the very first character of comp
 				std::string comp_first(1, comp[0]);
+				//std::cout << "comp_first = " << comp_first << std::endl;
 				
 				if(comp_first == "^"){
+					//std::cout << "enters exp" << std::endl;
+					//std::cout << "der[j]: " << der[j] << std::endl;
 					++j;
-
+					//std::cout << "der[j]: " << der[j] << std::endl;
 					// comp_second is only the second character of comp
 					std::string comp_second(1, der[j]);
 					// If the exponent is within parentheses, enters
@@ -124,9 +130,12 @@ public:
 
 						// Creates a pointer to the first character after the first parenthesis
 						char* ptr = &der[j - length_of_paren + 1];
+						//std::cout << "ptr = " << ptr << std::endl;
 						// Gets the exponent
 						double temp_exp = strtod(ptr, &ptr);
+						//std::cout << "strtod = " << temp << std::endl;
 						
+						// FUTURE RICKY, THE PROBLEM IS HERE. MULTIPLIES BY 0
 						// Initially multiplies the exponent(1) by the first double strtod retrieves
 						exponent *= temp_exp;
 						// Iterates the amount of plus/minus signs were within the exponent parentheses
@@ -150,14 +159,17 @@ public:
 					}
 					// Otherwise, no parentheses, so simply retrieves the next number to be the exponent
 					else{
+						//std::cout << "ENTERS 2" << std::endl;
 						exponent = strtod(&der[j], NULL);
 					}	
 				}
 				
 				// If comp_first is a number, ., -, or + sign, enters
 				else if((isdigit(comp[0]) || comp_first == "." || comp_first == "-" || comp_first == "+") && already_visited_coef == false){
+					//std::cout << "enters isdigit" << std::endl;
 					// Gets the coefficient
 					coefficient = strtod(comp.c_str(), NULL);
+					//std::cout << "coefficient = " << coefficient << std::endl;
 					// Made in case of something like the der of -x because strtod returns 0 instead of a -1
 					if(coefficient == 0 && comp_first == "-"){
 						std::string comp_second(1, comp[1]);
@@ -172,6 +184,7 @@ public:
 				
 				// If comp_first is a alphabetic character
 				else if(isalpha(comp[0])){
+					//std::cout << "enters isalpha" << std::endl;
 					variable = comp_first;
 					is_variable = true;
 				}
@@ -179,6 +192,7 @@ public:
 			}	
 			// If there was a variable within the term, enters
 			if(is_variable){
+				//std::cout << "isalpha is true\n";
 				// Depending on whether the new_der already has a term or not, changes the way term_der is set up
 				// in order to make the output more appealing
 
@@ -213,6 +227,10 @@ public:
 					double new_exp = exponent - 1;
 					std::string new_coef_str = std::to_string(new_coef);
 					std::string new_exp_str = std::to_string(new_exp);
+					//std::cout << "coefficient: " << coefficient << std::endl;
+					//std::cout << "exponent: " << exponent << std::endl;
+					//std::cout << "new coefficient: " << new_coef << std::endl;
+					//std::cout << "new exponent: " << new_exp << std::endl;
 					if(new_der == ""){
 						term_der = new_coef_str + variable + "^(" + new_exp_str + ")";
 					}
@@ -230,6 +248,7 @@ public:
 			}
 			// If there wasn't a variable, derivative is 0, enters
 			else{
+				//std::cout << "isalpha is false\n";
 				if(new_der == ""){
 					new_der += "0";
 				}
