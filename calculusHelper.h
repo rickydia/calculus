@@ -1,25 +1,22 @@
-#ifndef CALCULUS_H
-#define CALCULUS_H
+#pragma once
 
-/* Calculus.h
+/* calculusHelper.h
  *
  * Created by Ricky Diaz Gomez
  * rickydia@umich.edu
  *
  * Started on the 12th of June, 2017 at 12:50 PM
- * Last edited on the 4th of July, 2017 at 12:00 AM
+ * Last edited on the 26th of November, 2017 at 12:00 AM
  *
  */
 
 
 #include <iostream>
-#include <stdlib.h>
-#include <ctype.h>
+#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #include <string>
-#include <string.h>
 #include <vector>
-#include <cassert>
-#include <iomanip>
 
 
 
@@ -28,9 +25,26 @@ public:
 	Derivative(int num_of_der_in, std::string der_in)
 		:num_of_der(num_of_der_in), der(der_in) {}
 		
+	// EFFECTS: Takes the amount of derivatives as required
+	std::string take_derivative();
+
+	// REQUIRES: The number of times the derivative was done, the object of derivation, the correct
+	//			 derivative, and whether it was a derivative being done(able to be adapted if I later
+	//			 choose to add integrals to my program
+	// EFFECTS:  Function for the output, mostly designed in order to get the correct suffix
+	// NOTE:     DOES NOT ACCOUNT FOR CORRECT SUFFIXES AFTER 110 DERIVATIVES
+	void output_for_calc(int num, std::string thing_being_calced, std::string output, std::string type_of_calc);
+
+
+private:
+	int num_of_der;
+	std::string der;
 
 	// EFFECTS: Takes the derivative of the object in question once
-	std::string take_derivative_once(){
+	std::string take_derivative_once();
+};
+
+std::string Derivative::take_derivative_once(){
 		std::string new_der;
 
 		// Counts the amount of plus/minus signs that aren't used in exponents
@@ -150,7 +164,25 @@ public:
 					}
 					// Otherwise, no parentheses, so simply retrieves the next number to be the exponent
 					else{
-						exponent = strtod(&der[j], NULL);
+						std::string expStr;
+						if(der[j] == '.'){
+							expStr += der[j];
+							++j;
+						}
+						while( (isdigit(der[j]) || der[j] == '.') && (end - j ) >= 0 ){
+							expStr += der[j];
+							++j;
+						}
+						//exponent = stod(&expStr, NULL);
+					/*	bool periodFound = false;
+						int periodCounter = 0;
+						for(int k = 0; k < expStr.size(); ++k){
+							if(periodFound)
+								++periodCounter;
+							else if(expStr[k] == '.')
+								periodFound == true;
+						}*/
+						exponent = stod(expStr);
 					}	
 				}
 				
@@ -240,37 +272,21 @@ public:
 			}
 		}
 		return new_der;
-	}
-	
-	
 
-	// EFFECTS: Takes the amount of derivatives as required
-	std::string take_derivative(){
-		std::string output;
+}
+
+
+std::string Derivative::take_derivative(){
+	std::string output;
 		for(int i = 0; i < num_of_der; ++i){
 			output = take_derivative_once();
 			der = output;
 		}
 		return output;
-	}
+}
 
 
-
-private:
-	int num_of_der;
-	std::string der;
-
-};
-
-
-
-
-// REQUIRES: The number of times the derivative was done, the object of derivation, the correct
-//			 derivative, and whether it was a derivative being done(able to be adapted if I later
-//			 choose to add integrals to my program
-// EFFECTS:  Function for the output, mostly designed in order to get the correct suffix
-// NOTE:     DOES NOT ACCOUNT FOR CORRECT SUFFIXES AFTER 110 USES
-void output_for_calc(int num, std::string thing_being_calced, std::string output, std::string type_of_calc){
+void Derivative::output_for_calc(int num, std::string thing_being_calced, std::string output, std::string type_of_calc){
 	std::cout << '\n';
 
 	// After 20, the last digit determins the suffix
@@ -309,9 +325,6 @@ void output_for_calc(int num, std::string thing_being_calced, std::string output
 	}
 			
 	std::cout << "\n\n";
+
 }
-			
 
-
-
-#endif
