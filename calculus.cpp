@@ -39,7 +39,6 @@ int main(){
 			std::string der;
 			std::cout << "Please enter the object of derivation: ";
 			// Gets the user's input
-			//std::cin.ignore(1000, '\n');
 			std::cin >> std::ws;
 			getline(std::cin, der);
 			// Saves the user input into orig_der and edits der in order to remove all white space
