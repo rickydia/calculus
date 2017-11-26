@@ -173,15 +173,6 @@ std::string Derivative::take_derivative_once(){
 							expStr += der[j];
 							++j;
 						}
-						//exponent = stod(&expStr, NULL);
-					/*	bool periodFound = false;
-						int periodCounter = 0;
-						for(int k = 0; k < expStr.size(); ++k){
-							if(periodFound)
-								++periodCounter;
-							else if(expStr[k] == '.')
-								periodFound == true;
-						}*/
 						exponent = stod(expStr);
 					}	
 				}
