@@ -28,7 +28,7 @@ int main(){
 		std::cout << "\t\t\tq - quit \n\n";
 		std::cout << "Decision: ";
 		std::cin >> input;
-		
+
 		// Breaks out of loop if user wants to quit
 		if(input == "q" || input == "quit"){
 			break;
@@ -43,10 +43,10 @@ int main(){
 			getline(std::cin, der);
 			// Saves the user input into orig_der and edits der in order to remove all white space
 			std::string orig_der = der;
-			for(unsigned int i = 0; i < der.length(); ++i){ 
+			for(unsigned int i = 0; i < der.length(); ++i){
 				if(der[i] == ' '){ der.erase(i, 1); }
 			}
-			
+
 			int num_of_der = 0;
 			std::cout << "Please enter the amount of times the derivative should be taken: ";
 			std::cin >> num_of_der;
@@ -69,7 +69,7 @@ int main(){
 			std::cout << "\tIf there is no variable, then the derivative is 0, but you can check anyways by leaving the variable location empty.\n";
 			std::cout << "\tIf there is no exponent, you can leave out the '^' and leave the exponent location empty.\n\n\n";
 		}
-			
+
 	}
 
 	return 0;

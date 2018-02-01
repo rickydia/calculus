@@ -25,7 +25,7 @@ class Derivative{
 public:
 	Derivative(int num_of_der_in, std::string der_in)
 		:num_of_der(num_of_der_in), der(der_in) {}
-		
+
 	// EFFECTS: Takes the amount of derivatives as required
 	std::string take_derivative();
 
@@ -58,7 +58,7 @@ std::string Derivative::take_derivative_once(){
 			// In case of accessing items out of scope, try and catch
 			try{
 				der.at(i-1);
-				comp_minus_one.assign(1, der[i-1]); 
+				comp_minus_one.assign(1, der[i-1]);
 			}
 			catch(const std::out_of_range& oor){}
 
@@ -69,7 +69,7 @@ std::string Derivative::take_derivative_once(){
 			}
 			catch(const std::out_of_range& oor){}
 
-			std::string comp_minus_three; 
+			std::string comp_minus_three;
 			try{
 				der.at(i-3);
 				comp_minus_three.assign(1, der[i-3]);
@@ -78,7 +78,7 @@ std::string Derivative::take_derivative_once(){
 
 			// If a plus/minus sign is used outside of exponents
 			if((comp_first == "+" || comp_first == "-") && !(comp_minus_one == "^" || (comp_minus_one == "(" && (comp_minus_two == "^" || (comp_minus_two == " " && comp_minus_three == "^"))))){
-				++add_sub_counter; 
+				++add_sub_counter;
 				loc_of_plus_or_minus.push_back(i);
 			}
 		}
@@ -86,14 +86,13 @@ std::string Derivative::take_derivative_once(){
 
 		// If in a multiple term derivative, tests to see if the very first term doesn't have a plus/minus sign, so it wouldn't have shown up
 		std::string test(1, der[0]);
-		if(test != "-" && test != "+"){ 
+		if(test != "-" && test != "+"){
 			std::vector<int>::iterator it = loc_of_plus_or_minus.begin();
-			loc_of_plus_or_minus.insert(it, 0); 
+			loc_of_plus_or_minus.insert(it, 0);
 		}
 
 		// Ensures that the deivative is done in case that a + or - is never inputted
 		if(loc_of_plus_or_minus.size() == 0){ loc_of_plus_or_minus.push_back(0); }
-		
 
 		// For the inner for loop in order to give the last +/- a chance to run
 		loc_of_plus_or_minus.push_back((int)der.size());
@@ -110,12 +109,12 @@ std::string Derivative::take_derivative_once(){
 			int j = loc_of_plus_or_minus[i];
 
 			// Travels through the term itself through every item
-			for(int end = loc_of_plus_or_minus[i+1]; (end - j) >= 0; ++j){ 
+			for(int end = loc_of_plus_or_minus[i+1]; (end - j) >= 0; ++j){
 				// comp is a string with the remainder of der indexed at j
 				std::string comp = std::string(&der[j]);
 				// comp_first is the very first character of comp
 				std::string comp_first(1, comp[0]);
-				
+
 				if(comp_first == "^"){
 					++j;
 
@@ -141,7 +140,7 @@ std::string Derivative::take_derivative_once(){
 						char* ptr = &der[j - length_of_paren + 1];
 						// Gets the exponent
 						double temp_exp = strtod(ptr, &ptr);
-						
+
 						// Initially multiplies the exponent(1) by the first double strtod retrieves
 						exponent *= temp_exp;
 						// Iterates the amount of plus/minus signs were within the exponent parentheses
@@ -175,9 +174,9 @@ std::string Derivative::take_derivative_once(){
 							++j;
 						}
 						exponent = stod(expStr);
-					}	
+					}
 				}
-				
+
 				// If comp_first is a number, ., -, or + sign, enters
 				else if((isdigit(comp[0]) || comp_first == "." || comp_first == "-" || comp_first == "+") && already_visited_coef == false){
 					// Gets the coefficient
@@ -193,14 +192,14 @@ std::string Derivative::take_derivative_once(){
 					// So that it won't enter again within this term
 					already_visited_coef = true;
 				}
-				
+
 				// If comp_first is a alphabetic character
 				else if(isalpha(comp[0])){
 					variable = comp_first;
 					is_variable = true;
 				}
 
-			}	
+			}
 			// If there was a variable within the term, enters
 			if(is_variable){
 				// Depending on whether the new_der already has a term or not, changes the way term_der is set up
@@ -316,7 +315,7 @@ void Derivative::output_for_calc(int num, std::string thing_being_calced, std::s
 	else{
 		std::cout << "The " << num << "th " << type_of_calc << " of " << thing_being_calced << " is " << output << ".\n";
 	}
-			
+
 	std::cout << "\n\n";
 
 }
